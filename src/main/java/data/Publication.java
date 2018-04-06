@@ -5,6 +5,12 @@ public class Publication {
     private String title;
     private String publisher;
 
+    protected Publication(int year, String title, String publisher) {
+        this.year = year;
+        this.title = title;
+        this.publisher = publisher;
+    }
+
     public int getYear(){
         return year;
     }
@@ -28,4 +34,6 @@ public class Publication {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 }
