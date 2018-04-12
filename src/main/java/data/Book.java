@@ -1,5 +1,7 @@
 package data;
 
+import java.util.Objects;
+
 public class Book extends Publication{
 
     private String author;
@@ -14,13 +16,6 @@ public class Book extends Publication{
         this.setPages(pages);
         this.setIsbn(isbn);
     }
-
-    public Book(Book book) {
-        this(book.getTitle(), book.getAuthor(), book.getYear(), book.getPages(), book
-                .getPublisher(), book.getIsbn());
-    }
-
-
 
     public String getIsbn() {
         return isbn;
@@ -50,9 +45,37 @@ public class Book extends Publication{
         this.author = author;
     }
 
-    public void printInfo() {
-        String info = getTitle() + "; " + getAuthor() + "; " + getYear() + "; " + getPages()
-                + "; " + getPublisher() + "; " + getIsbn();
-        System.out.println(info);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Book book = (Book) o;
+        return pages == book.pages &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(isbn, book.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), author, pages, isbn);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder print = new StringBuilder(32);
+        print.append(getTitle());
+        print.append("; ");
+        print.append(getAuthor());
+        print.append("; ");
+        print.append(getYear());
+        print.append("; ");
+        print.append(getPages());
+        print.append("; ");
+        print.append(getPublisher());
+        print.append("; ");
+        print.append(getIsbn());
+        return print.toString();
     }
 }

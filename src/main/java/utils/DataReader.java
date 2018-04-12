@@ -3,60 +3,82 @@ package utils;
 import data.Book;
 import data.Magazine;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DataReader {
-    private Scanner sc;
+    private Scanner scanner;
 
     public DataReader() {
-        sc = new Scanner(System.in);
+        scanner = new Scanner(System.in);
     }
 
     public void close() {
-        sc.close();
+        scanner.close();
     }
 
-    public int getInt() {
-        int number = sc.nextInt();
-        sc.nextLine();
+    public int getInt() throws NumberFormatException{
+        int number = 0;
+        try {
+            number = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            throw new NumberFormatException("Liczba wprowadzona w niepoprawnej formie");
+        } finally {
+            scanner.nextLine();
+        }
         return number;
     }
 
-    public Book readAndCreateBook() {
+    public Book readAndCreateBook() throws InputMismatchException {
         System.out.println("Tytuł: ");
-        String title = sc.nextLine();
+        String title = scanner.nextLine();
         System.out.println("Autor: ");
-        String author = sc.nextLine();
+        String author = scanner.nextLine();
         System.out.println("Wydawnictwo: ");
-        String publisher = sc.nextLine();
+        String publisher = scanner.nextLine();
         System.out.println("ISBN: ");
-        String isbn = sc.nextLine();
+        String isbn = scanner.nextLine();
         System.out.println("Rok wydania: ");
-        int releaseDate = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Ilość stron: ");
-        int pages = sc.nextInt();
-        sc.nextLine();
+        int releaseDate = 0;
+        int pages = 0;
+        try {
+            releaseDate = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Ilość stron: ");
+            pages = scanner.nextInt();
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            throw e;
+        }
 
         return new Book(title, author, releaseDate, pages, publisher, isbn);
     }
 
-    public Magazine readAndCreateMagazine() {
+    public Magazine readAndCreateMagazine() throws InputMismatchException {
         System.out.println("Tytuł: ");
-        String title = sc.nextLine();
+        String title = scanner.nextLine();
         System.out.println("Wydawnictwo: ");
-        String publisher = sc.nextLine();
+        String publisher = scanner.nextLine();
         System.out.println("Język: ");
-        String language = sc.nextLine();
+        String language = scanner.nextLine();
         System.out.println("Rok wydania: ");
-        int year = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Miesiąc: ");
-        int month = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Dzień: ");
-        int day = sc.nextInt();
-        sc.nextLine();
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        try {
+            year = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Miesiąc: ");
+            month = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Dzień: ");
+            day = scanner.nextInt();
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            throw e;
+        }
 
         return new Magazine(title, publisher, language, year, month, day);
     }
