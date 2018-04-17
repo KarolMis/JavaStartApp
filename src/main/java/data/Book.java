@@ -1,8 +1,9 @@
 package data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Book extends Publication{
+public class Book extends Publication implements Serializable{
 
     private String author;
 

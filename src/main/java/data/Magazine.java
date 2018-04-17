@@ -1,8 +1,9 @@
 package data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Magazine extends Publication {
+public class Magazine extends Publication implements Serializable {
     private int month;
     private int day;
     private String language;

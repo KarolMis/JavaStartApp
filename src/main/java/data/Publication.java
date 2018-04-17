@@ -1,8 +1,9 @@
 package data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Publication {
+public class Publication implements Serializable {
     private int year;
     private String title;
     private String publisher;
