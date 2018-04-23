@@ -3,7 +3,7 @@ package data;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Publication implements Serializable {
+public class Publication implements Serializable, Comparable<Publication> {
     private int year;
     private String title;
     private String publisher;
@@ -53,5 +53,10 @@ public class Publication implements Serializable {
     public int hashCode() {
 
         return Objects.hash(year, title, publisher);
+    }
+
+    @Override
+    public int compareTo(Publication o) {
+        return title.compareTo(o.getTitle());
     }
 }

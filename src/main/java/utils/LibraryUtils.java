@@ -5,10 +5,13 @@ import data.Library;
 import data.Magazine;
 import data.Publication;
 
+import java.util.Arrays;
+
 public class LibraryUtils {
 
     public static void printBooks(Library library) {
         Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new Library.AlphabeticalComparator());
         int publicationsNumber = library.getPublicationNumber();
         int countBooks = 0;
         for(int i=0; i<publicationsNumber; i++) {
@@ -25,6 +28,7 @@ public class LibraryUtils {
 
     public static void printMagazines(Library library) {
         Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new Library.AlphabeticalComparator());
         int publicationsNumber = library.getPublicationNumber();
         int countMagazines = 0;
         for (int i = 0; i < publicationsNumber; i++) {
