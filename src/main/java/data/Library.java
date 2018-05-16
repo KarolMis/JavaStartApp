@@ -1,46 +1,40 @@
 package data;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Library implements Serializable {
 
-    private static final int INITIAL_CAPACITY = 1;
-    private Publication[] publications;
-    private int publicationsNumber;
+    private Map<String, Publication> publications;
+    private Map<String, LibraryUser> users;
 
+    public Map<String, LibraryUser> getUsers() {
+        return users;
+    }
 
+    public Map<String, Publication> getPublications() {
+        return publications;
+    }
+
+    public Library setPublications(Map<String, Publication> publications) {
+        this.publications = publications;
+        return this;
+    }
+
+    public Library setUsers(Map<String, LibraryUser> users) {
+        this.users = users;
+        return this;
+    }
 
     public Library() {
-        publications = new Publication[INITIAL_CAPACITY];
+        publications = new HashMap<>();
+        users = new HashMap<>();
     }
 
-    private void addPublication(Publication publication) throws ArrayIndexOutOfBoundsException{
-        if(publicationsNumber == publications.length) {
-            publications = Arrays.copyOf(publications, publications.length * 2);
-        }
-        publications[publicationsNumber] = publication;
-        publicationsNumber++;
-    }
-
-    public void removePublication(Publication publication) {
-        if(publication == null) return;
-
-        final int NOT_FOUND = -1;
-        int found = NOT_FOUND;
-        int i = 0;
-        while (i < publications.length && found == NOT_FOUND) {
-            if (publication.equals(publications[i])) {
-                found = i;
-            } else {
-                i++;
-            }
-        }
-        if (found != NOT_FOUND) {
-            System.arraycopy(publications, found + 1, publications, found, publications.length - found - 1);
-            publicationsNumber--;
-        }
+    public int getPublicationsNumber() {
+        return publications.size();
     }
 
     public void addBook(Book book){
@@ -51,61 +45,31 @@ public class Library implements Serializable {
         addPublication(magazine);
     }
 
-    public void printBooks() {
-        int countBooks = 0;
-        for(int i=0; i<publicationsNumber; i++) {
-            if(publications[i] instanceof Book) {
-                System.out.println(publications[i]);
-                countBooks++;
-            }
+    public void addUser(LibraryUser user){
+        users.put(user.getPesel(), user);
+    }
+
+    private void addPublication(Publication publication) {
+        publications.put(publication.getTitle(), publication);
+    }
+
+    public void removePublication(Publication publication) {
+        if(publications.containsValue(publication)) {
+            publications.remove(publication.getTitle());
         }
-
-        if(countBooks == 0) {
-            System.out.println("Brak książek w bibliotece");
-        }
-    }
-
-    public void printMagazines() {
-        int countMagazines = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if(publications[i] instanceof Magazine) {
-                System.out.println(publications[i]);
-                countMagazines++;
-            }
-        }
-        if (countMagazines == 0) {
-            System.out.println("Brak magazynów w bibliotece");
-        }
-    }
-
-    public Publication[] getPublications() {
-        return publications;
-    }
-
-
-    public int getPublicationNumber() {
-        return publicationsNumber;
-    }
-
-    public void setPublications(Publication[] publications) {
-        this.publications = publications;
-    }
-
-    public void setPublicationNumber(int publicationNumber) {
-        this.publicationsNumber = publicationNumber;
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for(int i=0; i<publicationsNumber; i++) {
-            builder.append(publications[i]);
+        for(Publication p: publications.values()) {
+            builder.append(p);
             builder.append("\n");
         }
         return builder.toString();
     }
-    public static class AlphabeticalComparator implements Comparator<Publication> {
 
+    public static class AlphabeticalComparator implements Comparator<Publication> {
         @Override
         public int compare(Publication o1, Publication o2) {
             if (o1 == null && o2 == null) {
@@ -122,7 +86,6 @@ public class Library implements Serializable {
     }
 
     public static class DateComparator implements Comparator<Publication> {
-
         @Override
         public int compare(Publication o1, Publication o2) {
             if (o1 == null && o2 == null) {

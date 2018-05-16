@@ -1,6 +1,7 @@
 package utils;
 
 import data.Book;
+import data.LibraryUser;
 import data.Magazine;
 
 import java.util.InputMismatchException;
@@ -18,7 +19,7 @@ public class DataReader {
     }
 
     public int getInt() throws NumberFormatException{
-        int number = 0;
+        int number;
         try {
             number = scanner.nextInt();
         } catch (InputMismatchException e) {
@@ -39,8 +40,8 @@ public class DataReader {
         System.out.println("ISBN: ");
         String isbn = scanner.nextLine();
         System.out.println("Rok wydania: ");
-        int releaseDate = 0;
-        int pages = 0;
+        int releaseDate;
+        int pages;
         try {
             releaseDate = scanner.nextInt();
             scanner.nextLine();
@@ -63,9 +64,9 @@ public class DataReader {
         System.out.println("Język: ");
         String language = scanner.nextLine();
         System.out.println("Rok wydania: ");
-        int year = 0;
-        int month = 0;
-        int day = 0;
+        int year;
+        int month;
+        int day;
         try {
             year = scanner.nextInt();
             scanner.nextLine();
@@ -81,5 +82,16 @@ public class DataReader {
         }
 
         return new Magazine(title, publisher, language, year, month, day);
+    }
+
+    public LibraryUser readAndCreateLibraryUser(){
+        System.out.println("Imię: ");
+        String firstName = scanner.nextLine();
+        System.out.println("Nazwisko: ");
+        String lastName = scanner.nextLine();
+        System.out.println("PESEL: ");
+        String pesel = scanner.nextLine();
+
+        return new LibraryUser(firstName, lastName, pesel);
     }
 }

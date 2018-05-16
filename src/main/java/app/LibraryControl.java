@@ -2,9 +2,11 @@ package app;
 
 import data.Book;
 import data.Library;
+import data.LibraryUser;
 import data.Magazine;
 import utils.DataReader;
 import utils.FileManager;
+import utils.LibraryUtils;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -55,6 +57,12 @@ public class LibraryControl {
                     case PRINT_MAGAZINES:
                         printMagazines();
                         break;
+                    case ADD_USER:
+                        addUser();
+                        break;
+                    case PRINT_USERS:
+                        printUsers();
+                        break;
                     case EXIT:
                         exit();
                 }
@@ -68,18 +76,12 @@ public class LibraryControl {
         dataReader.close();
     }
 
-    private void exit() {
-        fileManager.writeLibraryToFile(library);
-    }
-
-
     private void printOptions() {
         System.out.println("Wybierz opcję: ");
-        for(Option o: Option.values()) {
+        for (Option o : Option.values()) {
             System.out.println(o);
         }
     }
-
 
     private void addBook() {
         Book book = dataReader.readAndCreateBook();
@@ -87,7 +89,7 @@ public class LibraryControl {
     }
 
     private void printBooks() {
-        library.printBooks();
+        LibraryUtils.printBooks(library);
     }
 
     private void addMagazine() {
@@ -96,16 +98,30 @@ public class LibraryControl {
     }
 
     private void printMagazines() {
-        library.printMagazines();
+        LibraryUtils.printMagazines(library);
     }
 
+    private void addUser() {
+        LibraryUser user = dataReader.readAndCreateLibraryUser();
+        library.addUser(user);
+    }
+
+    private void printUsers() {
+        LibraryUtils.printUsers(library);
+    }
+
+    private void exit() {
+        fileManager.writeLibraryToFile(library);
+    }
 
     private enum Option {
         EXIT(0, "Wyjście z programu"),
         ADD_BOOK(1, "Dodanie książki"),
         ADD_MAGAZINE(2,"Dodanie magazynu/gazety"),
         PRINT_BOOKS(3, "Wyświetlenie dostępnych książek"),
-        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
+        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet"),
+        ADD_USER(5, "Dodanie nowego użytkownika"),
+        PRINT_USERS(6, "Wyświetlenie listy użytkowników");
 
         private int value;
         private String description;

@@ -1,22 +1,18 @@
 package utils;
 
-import data.Book;
-import data.Library;
-import data.Magazine;
-import data.Publication;
+import data.*;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class LibraryUtils {
 
     public static void printBooks(Library library) {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new Library.AlphabeticalComparator());
-        int publicationsNumber = library.getPublicationNumber();
+        Collection<Publication> publications = library.getPublications().values();
         int countBooks = 0;
-        for(int i=0; i<publicationsNumber; i++) {
-            if(publications[i] instanceof Book) {
-                System.out.println(publications[i]);
+        for(Publication p: publications) {
+            if(p instanceof Book) {
+                System.out.println(p);
                 countBooks++;
             }
         }
@@ -27,18 +23,23 @@ public class LibraryUtils {
     }
 
     public static void printMagazines(Library library) {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new Library.AlphabeticalComparator());
-        int publicationsNumber = library.getPublicationNumber();
+        Collection<Publication> publications = library.getPublications().values();
         int countMagazines = 0;
-        for (int i = 0; i < publicationsNumber; i++) {
-            if(publications[i] instanceof Magazine) {
-                System.out.println(publications[i]);
+        for(Publication p: publications) {
+            if(p instanceof Magazine) {
+                System.out.println(p);
                 countMagazines++;
             }
         }
         if (countMagazines == 0) {
             System.out.println("Brak magazynów w bibliotece");
+        }
+    }
+
+    public static void printUsers(Library library) {
+        Collection<LibraryUser> users = library.getUsers().values();
+        for(LibraryUser u: users) {
+            System.out.println(u);
         }
     }
 
