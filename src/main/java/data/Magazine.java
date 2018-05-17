@@ -1,28 +1,23 @@
 package data;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.time.LocalDate;
 
 public class Magazine extends Publication implements Serializable {
-    private int month;
-    private int day;
     private String language;
 
     public int getMonth() {
-        return month;
+        return getDate().getMonthValue();
     }
-    public void setMonth(int month) {
-        this.month = month;
-    }
+
     public int getDay() {
-        return day;
+        return getDate().getDayOfMonth();
     }
-    public void setDay(int day) {
-        this.day = day;
-    }
+
     public String getLanguage() {
         return language;
     }
+
     public void setLanguage(String language) {
         this.language = language;
     }
@@ -30,41 +25,34 @@ public class Magazine extends Publication implements Serializable {
     public Magazine(String title, String publisher, String language, int year, int month, int day) {
         super(year, title, publisher);
         setLanguage(language);
-        setMonth(month);
-        setDay(day);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Magazine magazine = (Magazine) o;
-        return month == magazine.month &&
-                day == magazine.day &&
-                Objects.equals(language, magazine.language);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(super.hashCode(), month, day, language);
+        setDate(LocalDate.of(year, month, day));
     }
 
     @Override
     public String toString() {
-        StringBuilder print = new StringBuilder(32);
-        print.append(getTitle());
-        print.append("; ");
-        print.append(getPublisher());
-        print.append("; ");
-        print.append(getYear());
-        print.append("; ");
-        print.append(getMonth());
-        print.append("; ");
-        print.append(getDay());
-        print.append("; ");
-        print.append(getLanguage());
-        return print.toString();
+        return getTitle() +  "; " + getPublisher() + "; " + getYear() + "-"
+                + getMonth() + "-" + getDay() + "; " + getLanguage();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((language == null) ? 0 : language.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Magazine other = (Magazine) obj;
+        if (language == null) {
+            return other.language == null;
+        } else return language.equals(other.language);
     }
 }
